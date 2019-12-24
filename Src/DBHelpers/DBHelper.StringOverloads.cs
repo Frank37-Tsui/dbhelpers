@@ -44,6 +44,12 @@ namespace DBHelpers
             return ExecuteNonQuery(command);
         }
 
+        public int ExecuteNonQuery(string commandText, params object[] parameters)
+        {
+            var command = CreateCommand(commandText, parameters);
+            return ExecuteNonQuery(command);
+        }
+
         #endregion
 
         #region ExecuteNonQueryAsync
@@ -97,6 +103,12 @@ namespace DBHelpers
         public T ExecuteScalar<T>(string commandText)
         {
             var command = CreateCommand(commandText);
+            return ExecuteScalar<T>(command);
+        }
+
+        public T ExecuteScalar<T>(string commandText, params object[] parameters)
+        {
+            var command = CreateCommand(commandText, parameters);
             return ExecuteScalar<T>(command);
         }
 
@@ -775,16 +787,21 @@ namespace DBHelpers
             return ExecuteList<T>(command, startRecord, maxRecords);
         }
 
-        public List<T> ExecuteList<T>(string commandText)
-            where T : new()
+        public List<T> ExecuteList<T>(string commandText) where T : new()
         {
             var command = CreateCommand(commandText);
             return ExecuteList<T>(command);
         }
 
+        public List<T> ExecuteList<T>(string commandText, params object[] parameters) where T : new()
+        {
+            var command = CreateCommand(commandText, parameters);
+            return ExecuteList<T>(command);
+        }
+
         #endregion
 
-        #region ExecuteListAsync<T>
+            #region ExecuteListAsync<T>
 
         public Task<List<T>> ExecuteListAsync<T>(string commandText, Converter<DbDataReader, T> converter, int startRecord, int maxRecords, DbConnection connection)
         {
